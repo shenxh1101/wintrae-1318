@@ -1,0 +1,113 @@
+@use '@/styles/variables.scss' as *;
+
+.page {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: 40rpx;
+}
+
+.searchBar {
+  padding: $spacing-md $page-padding;
+  background: $color-bg-card;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: $shadow-card;
+}
+
+.searchInput {
+  width: 100%;
+  height: 72rpx;
+  border-radius: $radius-button;
+  background: $color-bg-hover;
+  display: flex;
+  align-items: center;
+  padding: 0 $spacing-lg;
+  gap: $spacing-sm;
+
+  .icon {
+    font-size: $font-size-md;
+    color: $color-text-tertiary;
+  }
+
+  .placeholder {
+    font-size: $font-size-sm;
+    color: $color-text-tertiary;
+  }
+}
+
+.deptTabs {
+  display: flex;
+  padding: $spacing-sm $page-padding;
+  gap: $spacing-sm;
+  overflow-x: auto;
+  background: $color-bg-card;
+  border-top: 1rpx solid $color-divider;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.deptTab {
+  flex-shrink: 0;
+  padding: 10rpx 28rpx;
+  border-radius: $radius-button;
+  background: $color-bg-hover;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  transition: all $transition-fast;
+
+  &.active {
+    background: $color-primary;
+    color: $color-text-white;
+    font-weight: $font-weight-medium;
+  }
+}
+
+.memberList {
+  padding: $spacing-md $page-padding;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.statsBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-sm $page-padding;
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  background: $color-bg-page;
+}
+
+.filterBtn {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  color: $color-text-secondary;
+
+  &.active {
+    color: $color-primary;
+  }
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 0;
+}
+
+.emptyIcon {
+  font-size: 100rpx;
+  margin-bottom: $spacing-md;
+  opacity: 0.5;
+}
+
+.emptyText {
+  font-size: $font-size-md;
+  color: $color-text-tertiary;
+}

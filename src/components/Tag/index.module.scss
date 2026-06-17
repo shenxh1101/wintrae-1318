@@ -1,0 +1,37 @@
+@use '@/styles/variables.scss' as *;
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rpx 16rpx;
+  border-radius: $radius-sm;
+  font-size: $font-size-xs;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.blue {
+  background-color: $color-tag-blue-bg;
+  color: $color-tag-blue-text;
+}
+
+.green {
+  background-color: $color-tag-green-bg;
+  color: $color-tag-green-text;
+}
+
+.amber {
+  background-color: $color-tag-amber-bg;
+  color: $color-tag-amber-text;
+}
+
+.purple {
+  background-color: $color-tag-purple-bg;
+  color: $color-tag-purple-text;
+}
+
+.rose {
+  background-color: $color-tag-rose-bg;
+  color: $color-tag-rose-text;
+}

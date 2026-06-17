@@ -1,0 +1,63 @@
+@use '@/styles/variables.scss' as *;
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rpx 16rpx;
+  border-radius: $radius-round;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.pending {
+  background-color: $color-tag-amber-bg;
+  color: $color-tag-amber-text;
+}
+
+.approved {
+  background-color: $color-tag-green-bg;
+  color: $color-tag-green-text;
+}
+
+.rejected {
+  background-color: $color-tag-rose-bg;
+  color: $color-tag-rose-text;
+}
+
+.active {
+  background-color: $color-tag-green-bg;
+  color: $color-tag-green-text;
+}
+
+.inactive {
+  background-color: $color-bg-hover;
+  color: $color-text-tertiary;
+}
+
+.conflict {
+  background-color: $color-tag-rose-bg;
+  color: $color-tag-rose-text;
+}
+
+.interview {
+  background-color: $color-tag-blue-bg;
+  color: $color-tag-blue-text;
+}
+
+.read {
+  background-color: $color-tag-green-bg;
+  color: $color-tag-green-text;
+}
+
+.leave {
+  background-color: $color-tag-amber-bg;
+  color: $color-tag-amber-text;
+}
+
+.unconfirmed {
+  background-color: $color-bg-hover;
+  color: $color-text-tertiary;
+}

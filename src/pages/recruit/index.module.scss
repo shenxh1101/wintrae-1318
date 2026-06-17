@@ -1,0 +1,161 @@
+@use '@/styles/variables.scss' as *;
+
+.page {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: 40rpx;
+}
+
+.tabs {
+  display: flex;
+  background: $color-bg-card;
+  padding: 0 $page-padding;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: $shadow-card;
+}
+
+.tabItem {
+  flex: 1;
+  text-align: center;
+  padding: $spacing-md 0;
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+  position: relative;
+  transition: all $transition-fast;
+
+  &.active {
+    color: $color-primary;
+    font-weight: $font-weight-semibold;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 48rpx;
+      height: 6rpx;
+      border-radius: 3rpx;
+      background: $color-primary;
+    }
+  }
+}
+
+.content {
+  padding: $spacing-md $page-padding;
+}
+
+.jobList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.myAppList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.appCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+}
+
+.appHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: $spacing-md;
+}
+
+.appJobInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.appJobTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: 8rpx;
+  @include text-ellipsis;
+}
+
+.appDept {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.appStatus {
+  flex-shrink: 0;
+  margin-left: $spacing-sm;
+}
+
+.appMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 1rpx solid $color-divider;
+}
+
+.appMetaItem {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+
+  .label {
+    color: $color-text-secondary;
+    margin-right: 8rpx;
+  }
+}
+
+.appFeedback {
+  margin-top: $spacing-md;
+  padding: $spacing-md;
+  background: $color-bg-hover;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: 1.6;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 0;
+}
+
+.emptyIcon {
+  font-size: 100rpx;
+  margin-bottom: $spacing-md;
+  opacity: 0.5;
+}
+
+.emptyText {
+  font-size: $font-size-md;
+  color: $color-text-tertiary;
+  margin-bottom: $spacing-lg;
+}
+
+.emptyBtn {
+  @include button-reset;
+  height: $button-height-md;
+  padding: 0 $spacing-xl;
+  border-radius: $radius-button;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  color: $color-text-white;
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+
+  &:active {
+    opacity: 0.85;
+    transform: scale(0.96);
+  }
+}

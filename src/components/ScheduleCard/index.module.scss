@@ -1,0 +1,196 @@
+@use '@/styles/variables.scss' as *;
+
+.card {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+  margin-bottom: $spacing-md;
+  transition: all $transition-base;
+
+  &:active {
+    transform: scale(0.99);
+    opacity: 0.9;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: $spacing-md;
+}
+
+.left {
+  flex: 1;
+  min-width: 0;
+}
+
+.activity {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin-bottom: 6rpx;
+}
+
+.position {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  @include text-ellipsis;
+}
+
+.right {
+  flex-shrink: 0;
+  margin-left: $spacing-sm;
+}
+
+.infoRow {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-sm;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+
+  .icon {
+    width: 28rpx;
+    text-align: center;
+  }
+
+  .text {
+    flex: 1;
+    @include text-ellipsis;
+  }
+}
+
+.desc {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  line-height: 1.5;
+  margin-bottom: $spacing-md;
+  @include text-ellipsis-multi(2);
+}
+
+.memberSection {
+  padding-top: $spacing-md;
+  border-top: 1rpx solid $color-divider;
+}
+
+.memberHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-sm;
+}
+
+.memberLabel {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.memberCount {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+
+  .current {
+    color: $color-primary;
+    font-weight: $font-weight-semibold;
+  }
+}
+
+.memberAvatars {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: -12rpx;
+}
+
+.avatarItem {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: $radius-round;
+  border: 3rpx solid $color-bg-card;
+  margin-right: -12rpx;
+  overflow: hidden;
+  background: $color-bg-hover;
+
+  image {
+    width: 100%;
+    height: 100%;
+  }
+
+  &.leader {
+    border-color: $color-primary;
+  }
+}
+
+.moreText {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  margin-left: $spacing-md;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: $spacing-sm;
+  margin-top: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 1rpx solid $color-divider;
+}
+
+.claimBtn {
+  @include button-reset;
+  height: $button-height-sm;
+  padding: 0 $spacing-lg;
+  border-radius: $radius-button;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  color: $color-text-white;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+
+  &:active {
+    opacity: 0.85;
+    transform: scale(0.96);
+  }
+
+  &.disabled {
+    background: $color-bg-hover;
+    color: $color-text-disabled;
+  }
+}
+
+.detailBtn {
+  @include button-reset;
+  height: $button-height-sm;
+  padding: 0 $spacing-md;
+  border-radius: $radius-button;
+  background: transparent;
+  color: $color-text-secondary;
+  font-size: $font-size-sm;
+
+  &:active {
+    background: $color-bg-hover;
+  }
+}
+
+.conflictTip {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: $spacing-sm $spacing-md;
+  background: $color-tag-rose-bg;
+  border-radius: $radius-sm;
+  margin-bottom: $spacing-md;
+
+  .icon {
+    color: $color-status-conflict;
+    font-size: $font-size-md;
+  }
+
+  .text {
+    font-size: $font-size-sm;
+    color: $color-tag-rose-text;
+  }
+}
