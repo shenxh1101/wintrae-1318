@@ -18,6 +18,7 @@ interface AppState {
   notifications: Notification[];
   confirmRecords: ConfirmRecord[];
   currentMember: Member;
+  recruitActiveTab: 'jobs' | 'my';
 }
 
 type Action =
@@ -33,7 +34,8 @@ type Action =
   | { type: 'LEAVE_NOTIFICATION'; payload: { notificationId: string; memberId: string; reason: string } }
   | { type: 'UPDATE_NOTIFICATION_STATS'; payload: { notificationId: string; stats: { readCount: number; leaveCount: number; unconfirmedCount: number } } }
   | { type: 'UPDATE_CONFIRM_RECORD'; payload: ConfirmRecord }
-  | { type: 'ADD_CONFIRM_RECORD'; payload: ConfirmRecord };
+  | { type: 'ADD_CONFIRM_RECORD'; payload: ConfirmRecord }
+  | { type: 'SET_RECRUIT_TAB'; payload: 'jobs' | 'my' };
 
 const currentMember = initMembers[6];
 
@@ -45,7 +47,8 @@ const initialState: AppState = {
   scheduleShifts: initScheduleShifts,
   notifications: initNotifications,
   confirmRecords: initConfirmRecords,
-  currentMember
+  currentMember,
+  recruitActiveTab: 'jobs'
 };
 
 function appReducer(state: AppState, action: Action): AppState {
@@ -54,7 +57,7 @@ function appReducer(state: AppState, action: Action): AppState {
       return { ...state, clubInfo: { ...state.clubInfo, ...action.payload } };
 
     case 'ADD_RECRUIT_JOB':
-      return { ...state, recruitJobs: [...state.recruitJobs, action.payload] };
+      return { ...state, recruitJobs: [action.payload, ...state.recruitJobs] };
 
     case 'UPDATE_RECRUIT_JOB':
       return {
@@ -72,7 +75,8 @@ function appReducer(state: AppState, action: Action): AppState {
           j.id === action.payload.jobId
             ? { ...j, appliedCount: j.appliedCount + 1 }
             : j
-        )
+        ),
+        recruitActiveTab: 'my'
       };
 
     case 'UPDATE_INTERVIEW_SLOT':
@@ -159,43 +163,114 @@ function appReducer(state: AppState, action: Action): AppState {
 
     case 'CONFIRM_NOTIFICATION': {
       const { notificationId, memberId } = action.payload;
+      const existingRecord = state.confirmRecords.find(
+        cr => cr.notificationId === notificationId && cr.memberId === memberId
+      );
+      const member = state.members.find(m => m.id === memberId) || state.currentMember;
+
+      let newConfirmRecords: ConfirmRecord[];
+      let statsAdjustment = { read: 1, unconfirmed: -1 };
+
+      if (existingRecord) {
+        if (existingRecord.status === 'read') {
+          statsAdjustment = { read: 0, unconfirmed: 0 };
+        } else if (existingRecord.status === 'leave') {
+          statsAdjustment = { read: 1, unconfirmed: 0 };
+        }
+        newConfirmRecords = state.confirmRecords.map(cr =>
+          cr.notificationId === notificationId && cr.memberId === memberId
+            ? { ...cr, status: 'read' as const, confirmTime: new Date().toLocaleString() }
+            : cr
+        );
+      } else {
+        newConfirmRecords = [
+          ...state.confirmRecords,
+          {
+            id: `cr_${Date.now()}`,
+            notificationId,
+            memberId,
+            memberName: member.name,
+            avatar: member.avatar,
+            status: 'read' as const,
+            confirmTime: new Date().toLocaleString()
+          }
+        ];
+      }
+
       return {
         ...state,
         notifications: state.notifications.map(n => {
           if (n.id !== notificationId) return n;
           const stats = {
             ...n.stats,
-            readCount: n.stats.readCount + 1,
-            unconfirmedCount: Math.max(0, n.stats.unconfirmedCount - 1)
+            readCount: n.stats.readCount + statsAdjustment.read,
+            unconfirmedCount: Math.max(0, n.stats.unconfirmedCount + statsAdjustment.unconfirmed)
           };
-          return { ...n, stats };
+          return { ...n, stats, isRead: true };
         }),
-        confirmRecords: state.confirmRecords.map(cr =>
-          cr.notificationId === notificationId && cr.memberId === memberId
-            ? { ...cr, status: 'read' as const, confirmTime: new Date().toLocaleString() }
-            : cr
-        )
+        confirmRecords: newConfirmRecords
       };
     }
 
     case 'LEAVE_NOTIFICATION': {
       const { notificationId, memberId, reason } = action.payload;
+      const existingRecord = state.confirmRecords.find(
+        cr => cr.notificationId === notificationId && cr.memberId === memberId
+      );
+      const member = state.members.find(m => m.id === memberId) || state.currentMember;
+
+      let newConfirmRecords: ConfirmRecord[];
+      let statsAdjustment = { leave: 1, unconfirmed: -1 };
+
+      if (existingRecord) {
+        if (existingRecord.status === 'leave') {
+          statsAdjustment = { leave: 0, unconfirmed: 0 };
+        } else if (existingRecord.status === 'read') {
+          statsAdjustment = { leave: 1, unconfirmed: 0 };
+        }
+        newConfirmRecords = state.confirmRecords.map(cr =>
+          cr.notificationId === notificationId && cr.memberId === memberId
+            ? { ...cr, status: 'leave' as const, leaveReason: reason, confirmTime: new Date().toLocaleString() }
+            : cr
+        );
+      } else {
+        newConfirmRecords = [
+          ...state.confirmRecords,
+          {
+            id: `cr_${Date.now()}`,
+            notificationId,
+            memberId,
+            memberName: member.name,
+            avatar: member.avatar,
+            status: 'leave' as const,
+            confirmTime: new Date().toLocaleString(),
+            leaveReason: reason
+          }
+        ];
+      }
+
       return {
         ...state,
         notifications: state.notifications.map(n => {
           if (n.id !== notificationId) return n;
+          const oldStats = n.stats;
+          let newReadCount = oldStats.readCount;
+          let newLeaveCount = oldStats.leaveCount + statsAdjustment.leave;
+          let newUnconfirmed = Math.max(0, oldStats.unconfirmedCount + statsAdjustment.unconfirmed);
+
+          if (existingRecord && existingRecord.status === 'read') {
+            newReadCount = oldStats.readCount - 1;
+          }
+
           const stats = {
-            ...n.stats,
-            leaveCount: n.stats.leaveCount + 1,
-            unconfirmedCount: Math.max(0, n.stats.unconfirmedCount - 1)
+            ...oldStats,
+            readCount: newReadCount,
+            leaveCount: newLeaveCount,
+            unconfirmedCount: newUnconfirmed
           };
-          return { ...n, stats };
+          return { ...n, stats, isRead: true };
         }),
-        confirmRecords: state.confirmRecords.map(cr =>
-          cr.notificationId === notificationId && cr.memberId === memberId
-            ? { ...cr, status: 'leave' as const, leaveReason: reason, confirmTime: new Date().toLocaleString() }
-            : cr
-        )
+        confirmRecords: newConfirmRecords
       };
     }
 
@@ -222,6 +297,9 @@ function appReducer(state: AppState, action: Action): AppState {
         ...state,
         confirmRecords: [...state.confirmRecords, action.payload]
       };
+
+    case 'SET_RECRUIT_TAB':
+      return { ...state, recruitActiveTab: action.payload };
 
     default:
       return state;

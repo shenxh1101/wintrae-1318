@@ -8,12 +8,17 @@ import StatusBadge from '@/components/StatusBadge';
 import { useAppContext } from '@/store/AppContext';
 
 const RecruitPage: React.FC = () => {
-  const { state } = useAppContext();
-  const [activeTab, setActiveTab] = useState<'jobs' | 'my'>('jobs');
+  const { state, dispatch } = useAppContext();
+  const [activeTab, setActiveTab] = useState<'jobs' | 'my'>(state.recruitActiveTab);
+
+  React.useEffect(() => {
+    setActiveTab(state.recruitActiveTab);
+  }, [state.recruitActiveTab]);
 
   const handleTabChange = (tab: 'jobs' | 'my') => {
     console.log('[Recruit] 切换Tab:', tab);
     setActiveTab(tab);
+    dispatch({ type: 'SET_RECRUIT_TAB', payload: tab });
   };
 
   const handleApply = (jobId: string) => {

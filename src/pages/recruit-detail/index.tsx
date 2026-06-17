@@ -73,7 +73,7 @@ const RecruitDetailPage: React.FC = () => {
 
     Taro.showToast({ title: '报名成功！', icon: 'success' });
     setTimeout(() => {
-      Taro.navigateBack();
+      Taro.switchTab({ url: '/pages/recruit/index' });
     }, 1500);
   };
 
