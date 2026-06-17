@@ -5,9 +5,10 @@ import classNames from 'classnames';
 import styles from './index.module.scss';
 import JobCard from '@/components/JobCard';
 import StatusBadge from '@/components/StatusBadge';
-import { recruitJobs, myApplications } from '@/data/recruit';
+import { useAppContext } from '@/store/AppContext';
 
 const RecruitPage: React.FC = () => {
+  const { state } = useAppContext();
   const [activeTab, setActiveTab] = useState<'jobs' | 'my'>('jobs');
 
   const handleTabChange = (tab: 'jobs' | 'my') => {
@@ -46,7 +47,7 @@ const RecruitPage: React.FC = () => {
       <View className={styles.content}>
         {activeTab === 'jobs' && (
           <View className={styles.jobList}>
-            {recruitJobs.map((job) => (
+            {state.recruitJobs.map((job) => (
               <JobCard
                 key={job.id}
                 job={job}
@@ -58,8 +59,8 @@ const RecruitPage: React.FC = () => {
 
         {activeTab === 'my' && (
           <View className={styles.myAppList}>
-            {myApplications.length > 0 ? (
-              myApplications.map((app) => (
+            {state.myApplications.length > 0 ? (
+              state.myApplications.map((app) => (
                 <View key={app.id} className={styles.appCard}>
                   <View className={styles.appHeader}>
                     <View className={styles.appJobInfo}>

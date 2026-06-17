@@ -1,0 +1,261 @@
+@use '@/styles/variables.scss' as *;
+
+.page {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: 40rpx;
+}
+
+.tabBar {
+  display: flex;
+  background: $color-bg-card;
+  border-bottom: 1rpx solid $color-divider;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.tabItem {
+  flex: 1;
+  text-align: center;
+  padding: $spacing-md 0;
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+  position: relative;
+  transition: color $transition-fast;
+
+  &.active {
+    color: $color-primary;
+    font-weight: $font-weight-semibold;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60rpx;
+      height: 6rpx;
+      border-radius: 3rpx;
+      background: $color-primary;
+    }
+  }
+}
+
+.section {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  margin: $spacing-md $page-padding;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+}
+
+.sectionTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-md;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+
+  &::before {
+    content: '';
+    width: 6rpx;
+    height: 28rpx;
+    border-radius: 3rpx;
+    background: $color-primary;
+  }
+}
+
+.formGroup {
+  margin-bottom: $spacing-lg;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.formLabel {
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+  margin-bottom: $spacing-sm;
+  display: block;
+}
+
+.formInput {
+  width: 100%;
+  height: 80rpx;
+  border: 2rpx solid $color-border;
+  border-radius: $radius-md;
+  padding: 0 $spacing-md;
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  background: $color-bg-page;
+  box-sizing: border-box;
+
+  &:focus {
+    border-color: $color-primary;
+  }
+}
+
+.formTextarea {
+  width: 100%;
+  min-height: 200rpx;
+  border: 2rpx solid $color-border;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  background: $color-bg-page;
+  box-sizing: border-box;
+  line-height: 1.6;
+
+  &:focus {
+    border-color: $color-primary;
+  }
+}
+
+.formPicker {
+  width: 100%;
+  height: 80rpx;
+  border: 2rpx solid $color-border;
+  border-radius: $radius-md;
+  padding: 0 $spacing-md;
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  background: $color-bg-page;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.pickerValue {
+  flex: 1;
+  color: $color-text-primary;
+}
+
+.pickerArrow {
+  color: $color-text-tertiary;
+  font-size: $font-size-sm;
+}
+
+.submitBtn {
+  width: 100%;
+  height: 88rpx;
+  border-radius: $radius-button;
+  background: $color-primary;
+  color: $color-text-white;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: $spacing-lg;
+
+  &:active {
+    opacity: 0.8;
+  }
+
+  &.disabled {
+    background: $color-text-tertiary;
+    opacity: 0.6;
+  }
+}
+
+.slotItem {
+  background: $color-bg-page;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  margin-bottom: $spacing-sm;
+  position: relative;
+}
+
+.slotRow {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-xs;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.slotLabel {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  flex-shrink: 0;
+  width: 120rpx;
+}
+
+.slotInput {
+  flex: 1;
+  height: 64rpx;
+  border: 2rpx solid $color-border;
+  border-radius: $radius-sm;
+  padding: 0 $spacing-sm;
+  font-size: $font-size-sm;
+  color: $color-text-primary;
+  background: $color-bg-card;
+  box-sizing: border-box;
+}
+
+.removeSlotBtn {
+  position: absolute;
+  top: 8rpx;
+  right: 8rpx;
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: $radius-round;
+  background: rgba($color-danger, 0.1);
+  color: $color-danger;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-size-md;
+}
+
+.addSlotBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  padding: $spacing-md;
+  border: 2rpx dashed $color-border;
+  border-radius: $radius-md;
+  color: $color-primary;
+  font-size: $font-size-md;
+  margin-top: $spacing-sm;
+
+  &:active {
+    background: $color-bg-hover;
+  }
+}
+
+.successTip {
+  text-align: center;
+  padding: $spacing-xl;
+  color: $color-success;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+}
+
+.jobPreview {
+  background: $color-bg-page;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  margin-bottom: $spacing-md;
+}
+
+.jobPreviewTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-xs;
+}
+
+.jobPreviewMeta {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}

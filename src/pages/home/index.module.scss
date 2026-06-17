@@ -47,6 +47,25 @@
   @include text-ellipsis;
 }
 
+.adminBtn {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: $radius-round;
+  background: rgba($color-primary, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  &:active {
+    opacity: 0.7;
+  }
+}
+
+.adminIcon {
+  font-size: 36rpx;
+}
+
 .stats {
   display: flex;
   justify-content: space-between;

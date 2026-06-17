@@ -3,29 +3,242 @@
 .page {
   min-height: 100vh;
   background: $color-bg-page;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 100rpx $page-padding;
+  padding-bottom: 160rpx;
 }
 
-.icon {
-  font-size: 120rpx;
-  margin-bottom: $spacing-lg;
-  opacity: 0.5;
+.banner {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  padding: $spacing-xl $page-padding $spacing-lg;
+  color: $color-text-white;
 }
 
-.title {
-  font-size: $font-size-xl;
-  font-weight: $font-weight-semibold;
-  color: $color-text-primary;
+.jobTitle {
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-bold;
   margin-bottom: $spacing-sm;
 }
 
-.desc {
+.jobDept {
   font-size: $font-size-md;
-  color: $color-text-tertiary;
-  text-align: center;
+  opacity: 0.9;
+  margin-bottom: $spacing-sm;
+}
+
+.jobMeta {
+  display: flex;
+  gap: $spacing-lg;
+  font-size: $font-size-sm;
+  opacity: 0.8;
+}
+
+.section {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  margin: $spacing-md $page-padding;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+}
+
+.sectionTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-md;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+
+  &::before {
+    content: '';
+    width: 6rpx;
+    height: 28rpx;
+    border-radius: 3rpx;
+    background: $color-primary;
+  }
+}
+
+.requirements {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.requireItem {
+  font-size: $font-size-md;
+  color: $color-text-secondary;
   line-height: 1.6;
+  padding-left: $spacing-md;
+  position: relative;
+
+  &::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: $color-primary;
+  }
+}
+
+.formGroup {
+  margin-bottom: $spacing-lg;
+}
+
+.formLabel {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  margin-bottom: $spacing-sm;
+  display: block;
+
+  .required {
+    color: $color-error;
+    margin-left: 4rpx;
+  }
+}
+
+.formInput {
+  width: 100%;
+  height: 80rpx;
+  border: 2rpx solid $color-border;
+  border-radius: $radius-md;
+  padding: 0 $spacing-md;
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  background: $color-bg-card;
+  box-sizing: border-box;
+
+  &:focus {
+    border-color: $color-primary;
+  }
+}
+
+.formTextarea {
+  width: 100%;
+  min-height: 200rpx;
+  border: 2rpx solid $color-border;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  background: $color-bg-card;
+  box-sizing: border-box;
+  line-height: 1.6;
+
+  &:focus {
+    border-color: $color-primary;
+  }
+}
+
+.formHint {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  margin-top: 8rpx;
+}
+
+.slotList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.slotItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-md;
+  border: 2rpx solid $color-border;
+  border-radius: $radius-md;
+  transition: all $transition-fast;
+
+  &.selected {
+    border-color: $color-primary;
+    background: rgba($color-primary, 0.05);
+  }
+
+  &.full {
+    opacity: 0.5;
+  }
+}
+
+.slotInfo {
+  flex: 1;
+}
+
+.slotTime {
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  font-weight: $font-weight-medium;
+  margin-bottom: 4rpx;
+}
+
+.slotLocation {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.slotCapacity {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  flex-shrink: 0;
+  margin-left: $spacing-sm;
+
+  .full {
+    color: $color-error;
+  }
+}
+
+.slotRadio {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: $radius-round;
+  border: 3rpx solid $color-border;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: $spacing-sm;
+
+  &.selected {
+    border-color: $color-primary;
+    background: $color-primary;
+
+    &::after {
+      content: '✓';
+      color: white;
+      font-size: $font-size-sm;
+    }
+  }
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: $spacing-md $page-padding;
+  padding-bottom: calc(#{$spacing-md} + env(safe-area-inset-bottom));
+  background: $color-bg-card;
+  box-shadow: 0 -4rpx 16rpx rgba(0, 0, 0, 0.08);
+  display: flex;
+  gap: $spacing-md;
+}
+
+.submitBtn {
+  @include button-reset;
+  flex: 1;
+  height: $button-height-lg;
+  border-radius: $radius-button;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  color: $color-text-white;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+
+  &:active {
+    opacity: 0.85;
+    transform: scale(0.98);
+  }
+
+  &.disabled {
+    background: $color-bg-hover;
+    color: $color-text-disabled;
+  }
 }

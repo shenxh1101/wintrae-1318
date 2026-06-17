@@ -8,7 +8,8 @@ export default defineAppConfig({
     'pages/recruit-detail/index',
     'pages/member-detail/index',
     'pages/schedule-detail/index',
-    'pages/notification-detail/index'
+    'pages/notification-detail/index',
+    'pages/admin/index'
   ],
   window: {
     backgroundTextStyle: 'light',

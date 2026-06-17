@@ -8,6 +8,7 @@ import { formatDate } from '@/utils';
 
 interface ScheduleCardProps {
   shift: ScheduleShift;
+  currentMemberId?: string;
   showClaimBtn?: boolean;
   onClaim?: () => void;
   onDetail?: () => void;
@@ -15,6 +16,7 @@ interface ScheduleCardProps {
 
 const ScheduleCard: React.FC<ScheduleCardProps> = ({
   shift,
+  currentMemberId,
   showClaimBtn = true,
   onClaim,
   onDetail
@@ -44,6 +46,17 @@ const ScheduleCard: React.FC<ScheduleCardProps> = ({
   };
 
   const isFull = shift.assignedMembers.length >= shift.requiredCount;
+  const alreadyClaimed = currentMemberId
+    ? shift.assignedMembers.some(m => m.memberId === currentMemberId)
+    : false;
+
+  const getClaimBtnText = () => {
+    if (alreadyClaimed) return '已认领';
+    if (isFull) return '已满员';
+    return '我要认领';
+  };
+
+  const isClaimDisabled = isFull || alreadyClaimed;
 
   return (
     <View className={styles.card} onClick={handleCardClick}>
@@ -113,11 +126,11 @@ const ScheduleCard: React.FC<ScheduleCardProps> = ({
             查看详情
           </Button>
           <Button
-            className={`${styles.claimBtn} ${isFull ? styles.disabled : ''}`}
+            className={`${styles.claimBtn} ${isClaimDisabled ? styles.disabled : ''}`}
             onClick={handleClaim}
-            disabled={isFull}
+            disabled={isClaimDisabled}
           >
-            {isFull ? '已满员' : '我要认领'}
+            {getClaimBtnText()}
           </Button>
         </View>
       )}

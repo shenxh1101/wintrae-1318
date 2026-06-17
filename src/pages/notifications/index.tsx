@@ -3,9 +3,10 @@ import { View, Text, ScrollView } from '@tarojs/components';
 import classNames from 'classnames';
 import styles from './index.module.scss';
 import NotificationCard from '@/components/NotificationCard';
-import { notifications } from '@/data/notifications';
+import { useAppContext } from '@/store/AppContext';
 
 const NotificationsPage: React.FC = () => {
+  const { state } = useAppContext();
   const [activeType, setActiveType] = useState('all');
 
   const types = [
@@ -18,14 +19,14 @@ const NotificationsPage: React.FC = () => {
 
   const filteredNotifications = useMemo(() => {
     if (activeType === 'all') {
-      return notifications;
+      return state.notifications;
     }
-    return notifications.filter((n) => n.type === activeType);
-  }, [activeType]);
+    return state.notifications.filter((n) => n.type === activeType);
+  }, [activeType, state.notifications]);
 
   const unreadCount = useMemo(() => {
-    return notifications.filter((n) => !n.isRead).length;
-  }, []);
+    return state.notifications.filter((n) => !n.isRead).length;
+  }, [state.notifications]);
 
   const typeUnreadCounts = useMemo(() => {
     const counts: Record<string, number> = {};
@@ -33,13 +34,13 @@ const NotificationsPage: React.FC = () => {
       if (type.id === 'all') {
         counts[type.id] = unreadCount;
       } else {
-        counts[type.id] = notifications.filter(
+        counts[type.id] = state.notifications.filter(
           (n) => n.type === type.id && !n.isRead
         ).length;
       }
     });
     return counts;
-  }, [unreadCount]);
+  }, [unreadCount, state.notifications]);
 
   const handleTypeChange = (typeId: string) => {
     console.log('[Notifications] 切换类型:', typeId);
@@ -47,8 +48,8 @@ const NotificationsPage: React.FC = () => {
   };
 
   const needConfirmCount = useMemo(() => {
-    return notifications.filter((n) => n.needConfirm && !n.isRead).length;
-  }, []);
+    return state.notifications.filter((n) => n.needConfirm && !n.isRead).length;
+  }, [state.notifications]);
 
   return (
     <View className={styles.page}>
@@ -73,7 +74,7 @@ const NotificationsPage: React.FC = () => {
             <Text className={styles.summaryTitle}>通知概览</Text>
             <View className={styles.summaryStats}>
               <View className={styles.summaryStat}>
-                <Text className={styles.statNum}>{notifications.length}</Text>
+                <Text className={styles.statNum}>{state.notifications.length}</Text>
                 <Text className={styles.statLabel}>总通知</Text>
               </View>
               <View className={styles.summaryStat}>

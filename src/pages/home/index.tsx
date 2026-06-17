@@ -5,13 +5,15 @@ import styles from './index.module.scss';
 import SectionHeader from '@/components/SectionHeader';
 import JobCard from '@/components/JobCard';
 import StatusBadge from '@/components/StatusBadge';
-import { clubInfo, quickEntries } from '@/data/club';
-import { recruitJobs } from '@/data/recruit';
-import { activities } from '@/data/schedule';
+import { quickEntries } from '@/data/club';
+import { useAppContext } from '@/store/AppContext';
 import { formatDate } from '@/utils';
 
 const HomePage: React.FC = () => {
+  const { state } = useAppContext();
   const [loading, setLoading] = useState(false);
+
+  const { clubInfo, recruitJobs, scheduleShifts } = state;
 
   useEffect(() => {
     console.log('[Home] 页面加载');
@@ -48,8 +50,12 @@ const HomePage: React.FC = () => {
     Taro.switchTab({ url: '/pages/recruit/index' });
   };
 
-  const hotJobs = recruitJobs.slice(0, 2);
-  const upcomingActivity = activities[0];
+  const handleAdminClick = () => {
+    Taro.navigateTo({ url: '/pages/admin/index' });
+  };
+
+  const hotJobs = recruitJobs.filter(j => j.status === 'recruiting').slice(0, 2);
+  const upcomingActivity = scheduleShifts[0];
 
   return (
     <ScrollView
@@ -66,6 +72,9 @@ const HomePage: React.FC = () => {
         <View className={styles.clubInfo}>
           <Text className={styles.clubName}>{clubInfo.name}</Text>
           <Text className={styles.slogan}>{clubInfo.slogan}</Text>
+        </View>
+        <View className={styles.adminBtn} onClick={handleAdminClick}>
+          <Text className={styles.adminIcon}>⚙️</Text>
         </View>
       </View>
 
@@ -136,40 +145,36 @@ const HomePage: React.FC = () => {
         </View>
       </View>
 
-      <View className={styles.section}>
-        <SectionHeader title="近期活动" />
-        <View
-          className={styles.activityPreview}
-          onClick={() => handleActivityClick(upcomingActivity.id)}
-        >
-          <View className={styles.activityCover}>
-            <Image src={upcomingActivity.coverImage} mode="aspectFill" />
-            <View className={styles.activityStatus}>
-              <StatusBadge status={upcomingActivity.status} />
-            </View>
-          </View>
-          <View className={styles.activityInfo}>
-            <Text className={styles.activityTitle}>{upcomingActivity.title}</Text>
-            <View className={styles.activityMeta}>
-              <View className={styles.metaItem}>
-                <Text>📅</Text>
-                <Text>{formatDate(upcomingActivity.date)}</Text>
-              </View>
-              <View className={styles.metaItem}>
-                <Text>📍</Text>
-                <Text>{upcomingActivity.location}</Text>
-              </View>
-              <View className={styles.metaItem}>
-                <Text>👥</Text>
-                <Text>
-                  {upcomingActivity.participantCount}/
-                  {upcomingActivity.maxParticipants}人
-                </Text>
+      {upcomingActivity && (
+        <View className={styles.section}>
+          <SectionHeader title="近期活动" />
+          <View
+            className={styles.activityPreview}
+            onClick={() => handleActivityClick(upcomingActivity.id)}
+          >
+            <View className={styles.activityInfo}>
+              <Text className={styles.activityTitle}>{upcomingActivity.activityTitle}</Text>
+              <View className={styles.activityMeta}>
+                <View className={styles.metaItem}>
+                  <Text>📅</Text>
+                  <Text>{formatDate(upcomingActivity.date)}</Text>
+                </View>
+                <View className={styles.metaItem}>
+                  <Text>📍</Text>
+                  <Text>{upcomingActivity.location}</Text>
+                </View>
+                <View className={styles.metaItem}>
+                  <Text>👥</Text>
+                  <Text>
+                    {upcomingActivity.assignedMembers.length}/
+                    {upcomingActivity.requiredCount}人
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
         </View>
-      </View>
+      )}
     </ScrollView>
   );
 };
